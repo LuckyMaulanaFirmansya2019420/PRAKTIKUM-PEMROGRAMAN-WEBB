@@ -1,0 +1,11 @@
+.gold-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.gold-table th, .gold-table td {
+    border: 1px solid black;
+    padding: 5px;
+    background-color: gold;
+    color: black;
+}
