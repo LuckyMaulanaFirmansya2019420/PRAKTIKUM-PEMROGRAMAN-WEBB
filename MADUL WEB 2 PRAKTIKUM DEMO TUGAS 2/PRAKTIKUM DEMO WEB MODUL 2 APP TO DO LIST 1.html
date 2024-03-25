@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>To Do List App</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+  }
+  .todo-container {
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  .todo-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+  .todo-item input[type="text"] {
+    flex: 1;
+    margin-right: 5px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  .todo-item button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  .todo-item button:hover {
+    background-color: #d32f2f;
+  }
+</style>
+</head>
+<body>
+  <div class="todo-container">
+    <h2>To Do List</h2>
+    <div id="todo-list"></div>
+    <div>
+      <input type="text" id="todo-input" placeholder="Tambahkan kegiatan">
+      <button onclick="addTodo()">Tambah</button>
+    </div>
+  </div>
+
+  <script>
+    let todos = [];
+
+    function renderTodoList() {
+      const todoListDiv = document.getElementById('todo-list');
+      todoListDiv.innerHTML = '';
+
+      todos.forEach((todo, index) => {
+        const todoDiv = document.createElement('div');
+        todoDiv.classList.add('todo-item');
+
+        const todoInput = document.createElement('input');
+        todoInput.type = 'text';
+        todoInput.value = todo;
+        todoInput.setAttribute('readonly', true);
+
+        const editButton = document.createElement('button');
+        editButton.innerText = 'Edit';
+        editButton.onclick = () => editTodoItem(index);
+
+        const deleteButton = document.createElement('button');
+        deleteButton.innerText = 'Hapus';
+        deleteButton.onclick = () => deleteTodoItem(index);
+
+        todoDiv.appendChild(todoInput);
+        todoDiv.appendChild(editButton);
+        todoDiv.appendChild(deleteButton);
+
+        todoListDiv.appendChild(todoDiv);
+      });
+    }
+
+    function addTodo() {
+      const todoInput = document.getElementById('todo-input');
+      const newTodo = todoInput.value.trim();
+
+      if (newTodo !== '') {
+        todos.push(newTodo);
+        renderTodoList();
+        todoInput.value = '';
+      }
+    }
+
+    function editTodoItem(index) {
+      const updatedTodo = prompt('Edit kegiatan:', todos[index]);
+      if (updatedTodo !== null && updatedTodo.trim() !== '') {
+        todos[index] = updatedTodo;
+        renderTodoList();
+      }
+    }
+
+    function deleteTodoItem(index) {
+      if (confirm('Apakah Anda yakin ingin menghapus kegiatan ini?')) {
+        todos.splice(index, 1);
+        renderTodoList();
+      }
+    }
+
+    // Render the initial todo list
+    renderTodoList();
+  </script>
+</body>
+</html>
